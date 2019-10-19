@@ -32,6 +32,7 @@ class SampleActionVideoFragment : Fragment() {
             actionStep = it.getInt(MORNING_ACTION_STEP)
         }
         ttObj = TextToSpeech(activity) {
+
         }
 
     }
@@ -74,7 +75,7 @@ class SampleActionVideoFragment : Fragment() {
     }
 
     fun nextStep() {
-        (activity as MorningActionsActivity).goToNextFragment()
+        (activity as? MorningActionsActivity)?.goToNextFragment()
     }
 
 
