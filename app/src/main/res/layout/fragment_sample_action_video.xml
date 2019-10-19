@@ -5,9 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".morningactions.SampleActionVideoFragment">
 
+
     <VideoView
+        android:layout_gravity="center_horizontal|bottom"
         android:id="@+id/videoMorningActionSample"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:padding="10dp"
+        android:text="Sample"
+        android:textSize="26sp"
+        android:id="@+id/textViewInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>
