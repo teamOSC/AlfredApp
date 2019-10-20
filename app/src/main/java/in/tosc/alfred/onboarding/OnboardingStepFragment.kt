@@ -5,6 +5,7 @@ import `in`.tosc.alfred.R
 import `in`.tosc.alfred.onboarding.OnBoarding.ONBOARD_STEP
 import android.app.StatusBarManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,10 @@ class OnboardingStepFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("FRAG", "resumed: $onboardStep");
+
+        Handler().postDelayed({
+            (activity as OnboardingActivity).goToNextFragment()
+        }, 5000)
     }
 
     companion object {

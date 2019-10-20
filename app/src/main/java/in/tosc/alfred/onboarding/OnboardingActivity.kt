@@ -23,6 +23,10 @@ class OnboardingActivity : AppCompatActivity() {
         viewpagerOnboarding.setPageTransformer(ZoomOutPageTransformer())
     }
 
+    fun goToNextFragment() {
+        viewpagerOnboarding.currentItem++
+    }
+
 
     class OnBoardingSlidesAdapter(fragmentActivity: FragmentActivity) :
 
