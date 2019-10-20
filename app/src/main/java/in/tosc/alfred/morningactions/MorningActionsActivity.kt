@@ -30,5 +30,10 @@ class MorningActionsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        MorningActions.currentStep = -1
+        super.onDestroy()
+    }
+
 
 }

@@ -18,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minLines="2"
-        android:fontFamily="@font/rubik"
+        android:fontFamily="@font/opendys"
         android:padding="10dp"
         android:text="Sample"
-        android:textSize="26sp" />
+        android:textSize="22sp" />
 
 </FrameLayout>

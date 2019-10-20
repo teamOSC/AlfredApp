@@ -1,5 +1,6 @@
 package `in`.tosc.alfred
 
+import `in`.tosc.alfred.drawactions.DrawActionActivity
 import `in`.tosc.alfred.morningactions.MorningActionsActivity
 import `in`.tosc.alfred.onboarding.OnboardingActivity
 import android.content.Intent
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         buttonTests.setOnClickListener {
             startActivity(Intent(this, MorningActionsActivity::class.java))
+        }
+        buttonTests.setOnLongClickListener {
+            startActivity(Intent(this, DrawActionActivity::class.java))
+            true
         }
 
     }

@@ -12,9 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".drawactions.DrawActionActivity"></activity>
         <activity
-            android:theme="@style/AppThemeSplash"
-            android:name=".SplashActivity">
+            android:name=".SplashActivity"
+            android:theme="@style/AppThemeSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +25,6 @@
         <activity
             android:name=".onboarding.OnboardingActivity"
             android:theme="@style/AppThemeFullscreen" />
-        
         <activity android:name=".morningactions.MorningActionsActivity" />
         <activity android:name=".MainActivity" />
 
