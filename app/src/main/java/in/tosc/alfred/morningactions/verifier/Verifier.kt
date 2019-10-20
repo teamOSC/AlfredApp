@@ -28,16 +28,16 @@ open class Verifier {
 
     }
 
-    fun faceDetector(): FirebaseVisionFaceDetector {
+    fun verificationExpired(): Boolean = (System.currentTimeMillis() - verifyStart) > 5000
 
+    companion object {
         val options = FirebaseVisionFaceDetectorOptions.Builder()
-            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
+//            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
             .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
             .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
+            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
             .build()
 
-        return FirebaseVision.getInstance().getVisionFaceDetector(options)
+        val faceDetector = FirebaseVision.getInstance().getVisionFaceDetector(options)
     }
-
-    fun verificationExpired(): Boolean = (System.currentTimeMillis() - verifyStart) > 5000
 }

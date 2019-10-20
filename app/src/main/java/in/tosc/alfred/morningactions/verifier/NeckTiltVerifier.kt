@@ -11,21 +11,24 @@ class NeckTiltVerifier(private val listener: VerificationListener, val position:
         if (verificationExpired()) {
             listener.onVerificationCompleted(false)
         }
-        super.faceDetector().detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
+        faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             if (faces.isNotEmpty()) {
                 for (face in faces) {
 
                     if (face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR) != null &&
                         face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR) != null
                     ) {
+                        val leftPosition = face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR)!!.position
                         Log.e(
-                            "lol left y ",
-                            face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR)!!.position.y.toString()
+                            "lol left ",
+                            "${leftPosition.x} ${leftPosition.y} ${leftPosition.z}"
                         )
+                        val rightPosition = face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR)!!.position
                         Log.e(
-                            "lol right y ",
-                            face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR)!!.position.y.toString()
+                            "lol right ",
+                            "${rightPosition.x} ${rightPosition.y} ${rightPosition.z}"
                         )
+
 
                         if (position == "left") {
                             val success =

@@ -16,15 +16,17 @@ class MorningActionsActivity : AppCompatActivity() {
 
     fun goToVerifyFragment() {
         val nextFragment = VerifyActionFragment.newInstance(MorningActions.currentStep)
-        supportFragmentManager.commit {
+        supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragmentContainer, nextFragment)
+            commit()
         }
     }
 
     fun goToNextFragment() {
         val nextFragment = SampleActionVideoFragment.newInstance(MorningActions.nextStep())
-        supportFragmentManager.commit {
+        supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragmentContainer, nextFragment)
+            commit()
         }
     }
 
