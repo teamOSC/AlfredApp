@@ -3,6 +3,8 @@ package `in`.tosc.alfred.onboarding
 
 import `in`.tosc.alfred.R
 import `in`.tosc.alfred.onboarding.OnBoarding.ONBOARD_STEP
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.speech.tts.TextToSpeech
@@ -11,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_onboarding_step.*
@@ -78,21 +81,30 @@ class OnboardingStepFragment : Fragment() {
             // Next button after 5 seconds
             postDelayed({
                 buttonNext?.let {
+                    it.setOnClickListener {
+                        (activity as? OnboardingActivity)?.goToNextFragment()
+                    }
                     if (onboardStep == 0) {
                         it.text = "Start"
                     }
                     if (onboardStep == OnBoarding.ONBOARD_STEP_GIFS.size - 1) {
                         it.text = "Bye!"
+                        it.setOnClickListener {
+                            setIntroDone()
+                            activity?.finishAndRemoveTask()
+                        }
                     }
-
                     it.visibility = View.VISIBLE
-                    it.setOnClickListener {
-                        (activity as? OnboardingActivity)?.goToNextFragment()
-                    }
+
                 }
             }, 3000)
         }
+    }
 
+    fun setIntroDone() {
+        activity?.getSharedPreferences("alfred", Context.MODE_PRIVATE)?.edit {
+            putBoolean("onboarded", true)
+        }
     }
 
     companion object {
