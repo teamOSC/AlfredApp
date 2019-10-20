@@ -7,7 +7,7 @@ class WinkVerifier(val vListener: VerificationListener?, val eye: String): Verif
 
     override fun verify(frame: Frame) {
         if (verificationExpired()) {
-            listener?.onVerificationCompleted(false)
+            listener?.onVerificationCompleted(false, null)
 
         }
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
@@ -15,11 +15,11 @@ class WinkVerifier(val vListener: VerificationListener?, val eye: String): Verif
             if (faces.isNotEmpty()) {
                 for (face in faces) {
                     if (eye == "left") {
-                        if (face.leftEyeOpenProbability < 30)
-                            listener?.onVerificationCompleted(true)
+                        if (face.leftEyeOpenProbability < 50)
+                            listener?.onVerificationCompleted(true, face)
                     } else if (eye == "right") {
                         if (face.rightEyeOpenProbability < 50)
-                            listener?.onVerificationCompleted(true)
+                            listener?.onVerificationCompleted(true, face)
                     }
                 }
             }

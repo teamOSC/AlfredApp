@@ -4,6 +4,7 @@ package `in`.tosc.alfred.morningactions.verifier
 import `in`.tosc.alfred.R
 import `in`.tosc.alfred.morningactions.MorningActions
 import `in`.tosc.alfred.morningactions.MorningActionsActivity
+import android.graphics.*
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -11,7 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import com.google.firebase.ml.vision.face.FirebaseVisionFace
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceContour
 import com.otaliastudios.cameraview.CameraView
 import com.otaliastudios.cameraview.controls.Audio
 import com.otaliastudios.cameraview.controls.Facing
@@ -32,11 +36,15 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
     private var cameraFacing: Facing = Facing.FRONT
 
     private lateinit var cameraView: CameraView
+    private lateinit var cameraImageView: ImageView
 
     private var verifier: IVerifier? = null
     private lateinit var verifyListener: VerificationListener
 
     private var lastProcessed:Long = 0
+
+    var width: Int = 0
+    var height: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +62,13 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
         val rootView = inflater.inflate(R.layout.fragment_verify_action, container, false)
 
         cameraView = rootView.cameraView
+        cameraImageView = rootView.cameraImageView
 
         rootView.cameraView.facing = cameraFacing
         rootView.cameraView.audio = Audio.OFF
 
         verifyListener = object : VerificationListener {
-            override fun onVerificationCompleted(success: Boolean) {
+            override fun onVerificationCompleted(success: Boolean, face: FirebaseVisionFace?) {
                 destroyVerifier()
 
                 Log.d("FRAG", "onVerificationCompleted: step = ${MorningActions.currentStep}");
@@ -68,6 +77,10 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
                 MorningActions.stepVerifyStatus[MorningActions.ACTION_STEP_VIDEOS[MorningActions.currentStep]] =
                     success
                 Log.d("FRAG", MorningActions.stepVerifyStatus.toString());
+
+                if (face != null && success) {
+                    drawOverlines(face)
+                }
                 nextStep(success)
             }
         }
@@ -126,6 +139,103 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
         (verifier as? Verifier)?.removeListener()
     }
 
+    fun drawOverlines(face: FirebaseVisionFace) {
+        cameraImageView.setImageBitmap(null)
+
+        val bitmap = Bitmap.createBitmap(height, width, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val dotPaint = Paint()
+        dotPaint.color = Color.RED
+        dotPaint.style = Paint.Style.FILL
+        dotPaint.strokeWidth = 4F
+        val linePaint = Paint()
+        linePaint.color = Color.GREEN
+        linePaint.style = Paint.Style.STROKE
+        linePaint.strokeWidth = 2F
+
+        if (verifier is EyeballVerifier || verifier is WinkVerifier) {
+
+            if ((verifier as? EyeballVerifier)?.eye == "left" || (verifier as? WinkVerifier)?.eye == "left" ) {
+                val leftEyeContours = face.getContour(FirebaseVisionFaceContour.LEFT_EYE).points
+                for ((i, contour) in leftEyeContours.withIndex()) {
+                    if (i != leftEyeContours.lastIndex)
+                        canvas.drawLine(contour.x, contour.y, leftEyeContours[i + 1].x, leftEyeContours[i + 1].y, linePaint)
+                    else
+                        canvas.drawLine(contour.x, contour.y, leftEyeContours[0].x, leftEyeContours[0].y, linePaint)
+                    canvas.drawCircle(contour.x, contour.y, 4F, dotPaint)
+                }
+            }
+
+            if ((verifier as? EyeballVerifier)?.eye == "right" || (verifier as? WinkVerifier)?.eye == "right" ) {
+                val rightEyeContours = face.getContour(FirebaseVisionFaceContour.RIGHT_EYE).points
+                for ((i, contour) in rightEyeContours.withIndex()) {
+                    if (i != rightEyeContours.lastIndex)
+                        canvas.drawLine(contour.x, contour.y, rightEyeContours[i + 1].x, rightEyeContours[i + 1].y, linePaint)
+                    else
+                        canvas.drawLine(contour.x, contour.y, rightEyeContours[0].x, rightEyeContours[0].y, linePaint)
+                    canvas.drawCircle(contour.x, contour.y, 4F, dotPaint)
+                }
+            }
+
+
+        } else if (verifier is MouthMoveVerifier || verifier is SmileVerifier) {
+            val upperLipTopContours = face.getContour(FirebaseVisionFaceContour.UPPER_LIP_TOP).points
+            for ((i, contour) in upperLipTopContours.withIndex()) {
+                if (i != upperLipTopContours.lastIndex)
+                    canvas.drawLine(contour.x, contour.y, upperLipTopContours[i + 1].x, upperLipTopContours[i + 1].y, linePaint)
+                canvas.drawCircle(contour.x, contour.y, 4F, dotPaint)
+            }
+
+            val upperLipBottomContours = face.getContour(FirebaseVisionFaceContour.UPPER_LIP_BOTTOM).points
+            for ((i, contour) in upperLipBottomContours.withIndex()) {
+                if (i != upperLipBottomContours.lastIndex)
+                    canvas.drawLine(contour.x, contour.y, upperLipBottomContours[i + 1].x, upperLipBottomContours[i + 1].y, linePaint)
+                canvas.drawCircle(contour.x, contour.y, 4F, dotPaint)
+            }
+
+            val lowerLipTopContours = face.getContour(FirebaseVisionFaceContour.LOWER_LIP_TOP).points
+            for ((i, contour) in lowerLipTopContours.withIndex()) {
+                if (i != lowerLipTopContours.lastIndex)
+                    canvas.drawLine(contour.x, contour.y, lowerLipTopContours[i + 1].x, lowerLipTopContours[i + 1].y, linePaint)
+                canvas.drawCircle(contour.x, contour.y, 4F, dotPaint)
+            }
+
+            val lowerLipBottomContours = face.getContour(FirebaseVisionFaceContour.LOWER_LIP_BOTTOM).points
+            for ((i, contour) in lowerLipBottomContours.withIndex()) {
+                if (i != lowerLipBottomContours.lastIndex)
+                    canvas.drawLine(contour.x, contour.y, lowerLipBottomContours[i + 1].x, lowerLipBottomContours[i + 1].y, linePaint)
+                canvas.drawCircle(contour.x, contour.y, 4F, dotPaint)
+            }
+        } else if (verifier is NeckTiltVerifier || verifier is NeckTurnVerifier){
+
+            val faceContours = face.getContour(FirebaseVisionFaceContour.FACE).points
+            for ((i, contour) in faceContours.withIndex()) {
+                if (i != faceContours.lastIndex)
+                    canvas.drawLine(
+                        contour.x,
+                        contour.y,
+                        faceContours[i + 1].x,
+                        faceContours[i + 1].y,
+                        linePaint
+                    )
+                else
+                    canvas.drawLine(
+                        contour.x,
+                        contour.y,
+                        faceContours[0].x,
+                        faceContours[0].y,
+                        linePaint
+                    )
+                canvas.drawCircle(contour.x, contour.y, 4F, dotPaint)
+            }
+        }
+
+        val matrix = Matrix()
+        matrix.preScale(-1F, 1F)
+        val flippedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+        cameraImageView.setImageBitmap(flippedBitmap)
+    }
+
     override fun onResume() {
         super.onResume()
         setupVerifier()
@@ -152,6 +262,8 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
 
     override fun process(frame: Frame) {
         if (System.currentTimeMillis() - lastProcessed > 1000) {
+            width = frame.size.width
+            height = frame.size.height
             verifier?.verify(frame)
             lastProcessed = System.currentTimeMillis()
         }
@@ -159,13 +271,15 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
 
     fun nextStep(success: Boolean) {
         Log.e("FRAG", "actionStep = $actionStep, success = $success activity = $activity")
+        Handler().postDelayed({
+            if (activity != null) {
+//                Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
+                (activity as MorningActionsActivity).goToNextFragment()
+            } else {
+                throw Exception("bhosdike")
+            }
+        }, 1000)
 
-        if (activity != null) {
-            Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
-            (activity as MorningActionsActivity).goToNextFragment()
-        } else {
-            throw Exception("bhosdike")
-        }
     }
 
     companion object {

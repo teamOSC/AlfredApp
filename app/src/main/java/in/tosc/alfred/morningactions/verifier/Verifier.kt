@@ -40,7 +40,7 @@ open class Verifier(var listener: VerificationListener?) {
 
     companion object {
         val options = FirebaseVisionFaceDetectorOptions.Builder()
-//            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
+            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
             .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
             .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
             .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)

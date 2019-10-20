@@ -11,7 +11,7 @@ class NeckTurnVerifier(val vListener: VerificationListener?, val position: Strin
 
     override fun verify(frame: Frame) {
         if (verificationExpired()) {
-            listener?.onVerificationCompleted(false)
+            listener?.onVerificationCompleted(false, null)
         }
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             Log.d("FACES", "${this.javaClass.simpleName}: ${faces.size}");
@@ -24,15 +24,15 @@ class NeckTurnVerifier(val vListener: VerificationListener?, val position: Strin
                         initialNoseX = face.getLandmark(FirebaseVisionFaceLandmark.NOSE_BASE)!!.position.x
                     }
 
-                    if (initialFaceDetected && initialNoseX != 0f) {
+                    if (initialFaceDetected && initialNoseX != 0f && face.getLandmark(FirebaseVisionFaceLandmark.NOSE_BASE) != null) {
                         if (position == "left") {
                             if (face.getLandmark(FirebaseVisionFaceLandmark.NOSE_BASE)!!.position.x - initialNoseX  > 200) {
-                                listener?.onVerificationCompleted(true)
+                                listener?.onVerificationCompleted(true, face)
                             }
 
                         } else if (position == "right") {
                             if (initialNoseX- face.getLandmark(FirebaseVisionFaceLandmark.NOSE_BASE)!!.position.x > 200) {
-                                listener?.onVerificationCompleted(true)
+                                listener?.onVerificationCompleted(true, face)
                             }
                         }
                     }

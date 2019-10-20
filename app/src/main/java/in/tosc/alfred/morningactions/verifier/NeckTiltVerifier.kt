@@ -9,7 +9,7 @@ class NeckTiltVerifier(val vListener: VerificationListener?, val position: Strin
 
     override fun verify(frame: Frame) {
         if (verificationExpired()) {
-            listener?.onVerificationCompleted(false)
+            listener?.onVerificationCompleted(false, null)
         }
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             Log.d("FACES", "${this.javaClass.simpleName}: ${faces.size}");
@@ -19,17 +19,6 @@ class NeckTiltVerifier(val vListener: VerificationListener?, val position: Strin
                     if (face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR) != null &&
                         face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR) != null
                     ) {
-                        val leftPosition = face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR)!!.position
-                        Log.e(
-                            "lol left ",
-                            "${leftPosition.x} ${leftPosition.y} ${leftPosition.z}"
-                        )
-                        val rightPosition = face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR)!!.position
-                        Log.e(
-                            "lol right ",
-                            "${rightPosition.x} ${rightPosition.y} ${rightPosition.z}"
-                        )
-
 
                         if (position == "left") {
                             val success =
@@ -37,16 +26,16 @@ class NeckTiltVerifier(val vListener: VerificationListener?, val position: Strin
                                         - face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR)!!.position.y
                                         ) > 100
                             if (success)
-                                listener?.onVerificationCompleted(true)
+                                listener?.onVerificationCompleted(true, face)
                         }
 
                     } else if (position == "right") {
                         val success =
-                            (face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR)!!.position.y
-                                    - face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR)!!.position.y
+                            (face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR)!!.position.y
+                                    - face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR)!!.position.y
                                     ) > 100
                         if (success)
-                            listener?.onVerificationCompleted(true)
+                            listener?.onVerificationCompleted(true, face)
                     }
                 }
             }
