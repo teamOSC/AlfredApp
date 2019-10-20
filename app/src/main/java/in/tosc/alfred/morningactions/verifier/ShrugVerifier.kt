@@ -8,7 +8,7 @@ class ShrugVerifier(private val listener: VerificationListener): Verifier(), IVe
         if (verificationExpired()) {
             listener.onVerificationCompleted(false)
         }
-        super.faceDetector().detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
+        faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             if (faces.isNotEmpty()) {
                 for (face in faces) {
                     listener.onVerificationCompleted(true)

@@ -8,7 +8,7 @@ class WinkVerifier(private val listener: VerificationListener, val eye: String):
         if (verificationExpired()) {
             listener.onVerificationCompleted(false)
         }
-        super.faceDetector().detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
+        faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             if (faces.isNotEmpty()) {
                 for (face in faces) {
                     if (eye == "left") {

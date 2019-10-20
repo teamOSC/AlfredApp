@@ -116,13 +116,16 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
     }
 
     fun nextStep(success: Boolean) {
-        cameraView.removeFrameProcessor(this)
-        Handler().postDelayed({
-            if (activity != null) {
-                Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
-                (activity as MorningActionsActivity).goToNextFragment()
-            }
-        }, 500)
+        if (activity != null) {
+            Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
+            (activity as MorningActionsActivity).goToNextFragment()
+        } else {
+            Log.e("lol", "activity is null")
+        }
+//        cameraView.removeFrameProcessor(this)
+//        Handler().postDelayed({
+//
+//        }, 500)
     }
 
     companion object {

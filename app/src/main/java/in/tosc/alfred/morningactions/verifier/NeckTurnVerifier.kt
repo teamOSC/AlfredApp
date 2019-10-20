@@ -13,10 +13,9 @@ class NeckTurnVerifier(private val listener: VerificationListener, val position:
         if (verificationExpired()) {
             listener.onVerificationCompleted(false)
         }
-        super.faceDetector().detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
+        faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             if (faces.isNotEmpty()) {
                 for (face in faces) {
-                    Log.e("lol initial $initialNoseX", face.getLandmark(FirebaseVisionFaceLandmark.NOSE_BASE)!!.position.x.toString())
                     if (!initialFaceDetected) {
                         initialFaceDetected = (
                                 face.getLandmark(FirebaseVisionFaceLandmark.NOSE_BASE) != null
