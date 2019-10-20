@@ -5,6 +5,7 @@ import `in`.tosc.alfred.R
 import `in`.tosc.alfred.onboarding.OnBoarding.ONBOARD_STEP
 import android.app.StatusBarManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_onboarding_step.view.*
  * create an instance of this fragment.
  */
 class OnboardingStepFragment : Fragment() {
+
     private var onboardStep: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,10 @@ class OnboardingStepFragment : Fragment() {
         return rootView
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("FRAG", "resumed: $onboardStep");
+    }
 
     companion object {
         @JvmStatic
