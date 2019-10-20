@@ -23,6 +23,23 @@ object MorningActions {
     )
 
     var currentStep = -1
+
+    public val ACTION_STEP_INSTRUCTIONS = arrayOf(
+        "Look left without moving your head, like this",
+        "Look right without moving your head, like this",
+        "Now, turn your neck left",
+        "Ok, let's try turning the neck right now",
+        "Tilt your neck to the left",
+        "And now, tilt it to the right",
+        "Raise your left hand and wave",
+        "Raise your right hand to wave too",
+        "Wink with only your left eye",
+        "Now wink with your right eye",
+        "Narrow your lips and move your lips left and right like this",
+        "Let's see a big smile on your face, and then open your mouth",
+        "Try to shrug as shown"
+    )
+
     public fun nextStep () = ++currentStep
 
     var stepVerifyStatus = hashMapOf<Int, Boolean>()
