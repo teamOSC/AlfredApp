@@ -4,14 +4,15 @@ import android.util.Log
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceLandmark
 import com.otaliastudios.cameraview.frame.Frame
 
-class NeckTiltVerifier(private val listener: VerificationListener, val position: String) :
-    Verifier(), IVerifier {
+class NeckTiltVerifier(val vListener: VerificationListener?, val position: String) :
+    Verifier(vListener), IVerifier {
 
     override fun verify(frame: Frame) {
         if (verificationExpired()) {
-            listener.onVerificationCompleted(false)
+            listener?.onVerificationCompleted(false)
         }
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
+            Log.d("FACES", "${this.javaClass.simpleName}: ${faces.size}");
             if (faces.isNotEmpty()) {
                 for (face in faces) {
 
@@ -36,7 +37,7 @@ class NeckTiltVerifier(private val listener: VerificationListener, val position:
                                         - face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EAR)!!.position.y
                                         ) > 100
                             if (success)
-                                listener.onVerificationCompleted(true)
+                                listener?.onVerificationCompleted(true)
                         }
 
                     } else if (position == "right") {
@@ -45,7 +46,7 @@ class NeckTiltVerifier(private val listener: VerificationListener, val position:
                                     - face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EAR)!!.position.y
                                     ) > 100
                         if (success)
-                            listener.onVerificationCompleted(true)
+                            listener?.onVerificationCompleted(true)
                     }
                 }
             }

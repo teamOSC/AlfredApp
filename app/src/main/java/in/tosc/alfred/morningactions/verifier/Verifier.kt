@@ -7,9 +7,14 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import com.otaliastudios.cameraview.frame.Frame
 
-open class Verifier {
+open class Verifier(var listener: VerificationListener?) {
+    val faceDetector = FirebaseVision.getInstance().getVisionFaceDetector(options)
 
     val verifyStart = System.currentTimeMillis()
+    fun removeListener() {
+        listener = null
+        faceDetector.close()
+    }
 
     fun visionImage(frame: Frame): FirebaseVisionImage {
         val width = frame.size.width
@@ -38,6 +43,5 @@ open class Verifier {
             .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
             .build()
 
-        val faceDetector = FirebaseVision.getInstance().getVisionFaceDetector(options)
     }
 }

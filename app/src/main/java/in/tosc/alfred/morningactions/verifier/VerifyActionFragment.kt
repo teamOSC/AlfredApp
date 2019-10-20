@@ -33,13 +33,14 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
 
     private lateinit var cameraView: CameraView
 
-    private lateinit var verifier: IVerifier
+    private var verifier: IVerifier? = null
     private lateinit var verifyListener: VerificationListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             actionStep = it.getInt(MorningActions.MORNING_ACTION_STEP)
+            Log.d("FRAG", "onCreate: actionStep = $actionStep");
         }
     }
 
@@ -54,17 +55,25 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
 
         rootView.cameraView.facing = cameraFacing
         rootView.cameraView.audio = Audio.OFF
-        rootView.cameraView.setLifecycleOwner(viewLifecycleOwner)
-        rootView.cameraView.addFrameProcessor(this)
 
         verifyListener = object : VerificationListener {
             override fun onVerificationCompleted(success: Boolean) {
+                destroyVerifier()
+
+                Log.d("FRAG", "onVerificationCompleted: step = ${MorningActions.currentStep}");
+                Log.d("FRAG", "onVerificationCompleted: success = ${success}");
+
                 MorningActions.stepVerifyStatus[MorningActions.ACTION_STEP_VIDEOS[MorningActions.currentStep]] =
                     success
+                Log.d("FRAG", MorningActions.stepVerifyStatus.toString());
                 nextStep(success)
             }
         }
 
+        return rootView
+    }
+
+    fun setupVerifier() {
         MorningActions.ACTION_STEP_VIDEOS[actionStep].apply {
             when (this) {
                 R.raw.wink_left_eye -> {
@@ -108,26 +117,50 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
                 }
             }
         }
-
-        return rootView
+        Log.d("FRAG", "verifier: ${verifier}");
     }
 
+    fun destroyVerifier() {
+        (verifier as? Verifier)?.removeListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupVerifier()
+        cameraView.addFrameProcessor(this)
+        cameraView.open()
+        Log.d("FRAG", "onResume this = $this");
+    }
+
+    override fun onPause() {
+        cameraView.removeFrameProcessor(this)
+        cameraView.clearCameraListeners()
+        cameraView.close()
+        destroyVerifier()
+        super.onPause()
+        Log.d("FRAG", "onPause this = $this");
+    }
+
+    override fun onDestroy() {
+        cameraView.destroy()
+        verifier = null
+        super.onDestroy()
+    }
+
+
     override fun process(frame: Frame) {
-        verifier.verify(frame)
+        verifier?.verify(frame)
     }
 
     fun nextStep(success: Boolean) {
-        cameraView.removeFrameProcessor(this)
-        cameraView.close()
-        cameraView.destroy()
-        Handler().postDelayed({
-            if (activity != null) {
-                Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
-                (activity as MorningActionsActivity).goToNextFragment()
-            } else {
-                Log.e("lol", "activity is null")
-            }
-        }, 500)
+        Log.e("FRAG", "actionStep = $actionStep, success = $success activity = $activity")
+
+        if (activity != null) {
+            Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
+            (activity as MorningActionsActivity).goToNextFragment()
+        } else {
+            throw Exception("bhosdike")
+        }
     }
 
     companion object {
@@ -135,6 +168,7 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
         fun newInstance(step: Int): VerifyActionFragment {
             return VerifyActionFragment().apply {
                 arguments = Bundle().apply {
+                    Log.d("FRAG", "arg step = $step");
                     putInt(MorningActions.MORNING_ACTION_STEP, step)
                 }
             }

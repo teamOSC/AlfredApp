@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        startActivity(Intent(this, MorningActionsActivity::class.java))
-        startActivity(Intent(this, OnboardingActivity::class.java))
+        startActivity(Intent(this, MorningActionsActivity::class.java))
+//        startActivity(Intent(this, OnboardingActivity::class.java))
     }
 }
