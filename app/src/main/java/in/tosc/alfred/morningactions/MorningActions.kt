@@ -6,6 +6,8 @@ object MorningActions {
 
     public const val MORNING_ACTION_STEP = "morning_action_step"
 
+    var DEBUG = false
+
     public val ACTION_STEP_VIDEOS = intArrayOf(
         R.raw.eyeball_look_left,
         R.raw.eyeball_look_right,

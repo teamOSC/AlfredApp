@@ -78,7 +78,7 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
                     success
                 Log.d("FRAG", MorningActions.stepVerifyStatus.toString());
 
-                if (face != null && success) {
+                if (MorningActions.DEBUG && face != null && success) {
                     drawOverlines(face)
                 }
                 nextStep(success)

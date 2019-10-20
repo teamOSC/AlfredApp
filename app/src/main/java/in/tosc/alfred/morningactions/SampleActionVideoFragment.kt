@@ -11,6 +11,7 @@ import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_sample_action_video.view.*
 
@@ -25,6 +26,11 @@ class SampleActionVideoFragment : Fragment() {
     // TODO: Rename and change types of parameters
     var actionStep: Int = 0
     var ttObj: TextToSpeech? = null
+
+    private val startTime = System.currentTimeMillis();
+
+    private lateinit var videoView: VideoView
+    private val delayHandler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +59,12 @@ class SampleActionVideoFragment : Fragment() {
                 activity?.packageName +
                 "/" + MorningActions.ACTION_STEP_VIDEOS[actionStep]
 
+        videoView = rootView.videoMorningActionSample
         rootView.videoMorningActionSample.setVideoURI(Uri.parse(videoPath))
         rootView.videoMorningActionSample.start()
 
         rootView.videoMorningActionSample.setOnCompletionListener {
-            rootView.videoMorningActionSample.setZOrderOnTop(true);
-            rootView.videoMorningActionSample.stopPlayback()
-            rootView.videoMorningActionSample.suspend()
-            verifyStep()
+                goNext()
         }
 
         rootView.videoMorningActionSample.setOnPreparedListener {
@@ -79,6 +83,20 @@ class SampleActionVideoFragment : Fragment() {
 
 
         return rootView
+    }
+
+    private fun goNext() {
+        val timeLeft = System.currentTimeMillis() - startTime
+        if (timeLeft < 3000) {
+            delayHandler.postDelayed({
+                goNext()
+            }, timeLeft)
+            return
+        }
+        videoView.setZOrderOnTop(true);
+        videoView.stopPlayback()
+        videoView.suspend()
+        verifyStep()
     }
 
     private fun verifyStep() {

@@ -3,6 +3,9 @@ package `in`.tosc.alfred.morningactions
 import `in`.tosc.alfred.R
 import `in`.tosc.alfred.morningactions.verifier.VerifyActionFragment
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 
@@ -14,6 +17,18 @@ class MorningActionsActivity : AppCompatActivity() {
         goToNextFragment()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_debug, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.toggle_debug) {
+            MorningActions.DEBUG = !MorningActions.DEBUG
+            Toast.makeText(this, "Debug mode ${MorningActions.DEBUG}", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
     fun goToVerifyFragment() {
         val nextFragment = VerifyActionFragment.newInstance(MorningActions.currentStep)
         supportFragmentManager.beginTransaction().apply {
