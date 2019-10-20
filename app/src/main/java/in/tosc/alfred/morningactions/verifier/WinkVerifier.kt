@@ -8,6 +8,7 @@ class WinkVerifier(val vListener: VerificationListener?, val eye: String): Verif
     override fun verify(frame: Frame) {
         if (verificationExpired()) {
             listener?.onVerificationCompleted(false)
+
         }
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             Log.d("FACES", "${this.javaClass.simpleName}: ${faces.size}");

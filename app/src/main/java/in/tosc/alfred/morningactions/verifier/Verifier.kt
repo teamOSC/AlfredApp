@@ -13,7 +13,10 @@ open class Verifier(var listener: VerificationListener?) {
     val verifyStart = System.currentTimeMillis()
     fun removeListener() {
         listener = null
-        faceDetector.close()
+    }
+
+    fun startDetect() {
+
     }
 
     fun visionImage(frame: Frame): FirebaseVisionImage {

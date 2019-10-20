@@ -36,6 +36,8 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
     private var verifier: IVerifier? = null
     private lateinit var verifyListener: VerificationListener
 
+    private var lastProcessed:Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -149,7 +151,10 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
 
 
     override fun process(frame: Frame) {
-        verifier?.verify(frame)
+        if (System.currentTimeMillis() - lastProcessed > 1000) {
+            verifier?.verify(frame)
+            lastProcessed = System.currentTimeMillis()
+        }
     }
 
     fun nextStep(success: Boolean) {

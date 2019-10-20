@@ -9,6 +9,7 @@ class EyeballVerifier(val vListener: VerificationListener?, val eye: String): Ve
         if (verificationExpired()) {
             listener?.onVerificationCompleted(false)
         }
+
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             Log.d("FACES", "${this.javaClass.simpleName}: ${faces.size}");
             if (faces.isNotEmpty()) {
