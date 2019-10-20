@@ -61,6 +61,7 @@ class SampleActionVideoFragment : Fragment() {
         rootView.videoMorningActionSample.setOnCompletionListener {
             rootView.videoMorningActionSample.setZOrderOnTop(true);
             rootView.videoMorningActionSample.stopPlayback()
+            rootView.videoMorningActionSample.suspend()
             verifyStep()
         }
 
@@ -91,12 +92,12 @@ class SampleActionVideoFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(step: Int) =
-            SampleActionVideoFragment().apply {
+        fun newInstance(step: Int): SampleActionVideoFragment {
+            return SampleActionVideoFragment().apply {
                 arguments = Bundle().apply {
                     putInt(MORNING_ACTION_STEP, step)
                 }
             }
+        }
     }
 }

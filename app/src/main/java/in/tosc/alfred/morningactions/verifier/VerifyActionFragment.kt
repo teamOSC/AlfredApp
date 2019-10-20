@@ -48,24 +48,25 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
         savedInstanceState: Bundle?
     ): View? {
 
-        val rootView =  inflater.inflate(R.layout.fragment_verify_action, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_verify_action, container, false)
 
         cameraView = rootView.cameraView
 
         rootView.cameraView.facing = cameraFacing
         rootView.cameraView.audio = Audio.OFF
-        rootView.cameraView.setLifecycleOwner(this)
+        rootView.cameraView.setLifecycleOwner(viewLifecycleOwner)
         rootView.cameraView.addFrameProcessor(this)
 
-        verifyListener = object: VerificationListener {
+        verifyListener = object : VerificationListener {
             override fun onVerificationCompleted(success: Boolean) {
-                MorningActions.stepVerifyStatus[MorningActions.ACTION_STEP_VIDEOS[MorningActions.currentStep]] = success
+                MorningActions.stepVerifyStatus[MorningActions.ACTION_STEP_VIDEOS[MorningActions.currentStep]] =
+                    success
                 nextStep(success)
             }
         }
 
         MorningActions.ACTION_STEP_VIDEOS[actionStep].apply {
-            when(this) {
+            when (this) {
                 R.raw.wink_left_eye -> {
                     verifier = WinkVerifier(verifyListener, "left")
                 }
@@ -112,38 +113,31 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
     }
 
     override fun process(frame: Frame) {
-       verifier.verify(frame)
+        verifier.verify(frame)
     }
 
     fun nextStep(success: Boolean) {
-        if (activity != null) {
-            Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
-            (activity as MorningActionsActivity).goToNextFragment()
-        } else {
-            Log.e("lol", "activity is null")
-        }
-//        cameraView.removeFrameProcessor(this)
-//        Handler().postDelayed({
-//
-//        }, 500)
+        cameraView.removeFrameProcessor(this)
+        cameraView.close()
+        cameraView.destroy()
+        Handler().postDelayed({
+            if (activity != null) {
+                Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
+                (activity as MorningActionsActivity).goToNextFragment()
+            } else {
+                Log.e("lol", "activity is null")
+            }
+        }, 500)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment VerifyActionFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(step: Int) =
-            VerifyActionFragment().apply {
+
+        fun newInstance(step: Int): VerifyActionFragment {
+            return VerifyActionFragment().apply {
                 arguments = Bundle().apply {
                     putInt(MorningActions.MORNING_ACTION_STEP, step)
                 }
             }
+        }
     }
 }
