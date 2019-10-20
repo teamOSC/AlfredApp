@@ -3,11 +3,15 @@ package `in`.tosc.alfred.onboarding
 
 import `in`.tosc.alfred.R
 import `in`.tosc.alfred.onboarding.OnBoarding.ONBOARD_STEP
+import android.app.StatusBarManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_onboarding_step.view.*
 
 
 /**
@@ -16,7 +20,7 @@ import android.view.ViewGroup
  * create an instance of this fragment.
  */
 class OnboardingStepFragment : Fragment() {
-    private var onboardStep: Int? = null
+    private var onboardStep: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +34,19 @@ class OnboardingStepFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_onboarding_step, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_onboarding_step, container, false)
+
+        Glide
+            .with(this)
+            .load(OnBoarding.ONBOARD_STEP_GIFS[onboardStep])
+            .into(rootView.imageOnBoard)
+
+        rootView.textViewInstruction.text = OnBoarding.ONBOARD_STEP_INSTRUCTIONS[onboardStep]
+
+        activity?.window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorAccent)
+        activity?.window?.navigationBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
+
+        return rootView
     }
 
 
