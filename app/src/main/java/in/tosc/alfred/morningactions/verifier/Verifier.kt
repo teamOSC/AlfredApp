@@ -31,9 +31,10 @@ open class Verifier {
     fun faceDetector(): FirebaseVisionFaceDetector {
 
         val options = FirebaseVisionFaceDetectorOptions.Builder()
-            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
+//            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
             .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
             .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
+            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
             .build()
 
         return FirebaseVision.getInstance().getVisionFaceDetector(options)

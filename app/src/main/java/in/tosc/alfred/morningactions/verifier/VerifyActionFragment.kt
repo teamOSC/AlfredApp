@@ -87,6 +87,24 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
                 R.raw.neck_tilt_right -> {
                     verifier = NeckTiltVerifier(verifyListener, "right")
                 }
+                R.raw.eyeball_look_left -> {
+                    verifier = EyeballVerifier(verifyListener, "left")
+                }
+                R.raw.eyeball_look_right -> {
+                    verifier = EyeballVerifier(verifyListener, "right")
+                }
+                R.raw.mouth_move -> {
+                    verifier = MouthMoveVerifier(verifyListener)
+                }
+                R.raw.shrug -> {
+                    verifier = ShrugVerifier(verifyListener)
+                }
+                R.raw.wave_left_hand -> {
+                    verifier = WaveHandVerifier(verifyListener, "left")
+                }
+                R.raw.wave_right_hand -> {
+                    verifier = WaveHandVerifier(verifyListener, "right")
+                }
             }
         }
 
