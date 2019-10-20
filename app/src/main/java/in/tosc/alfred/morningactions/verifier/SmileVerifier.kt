@@ -6,12 +6,12 @@ class SmileVerifier(val vListener: VerificationListener?): Verifier(vListener), 
 
     override fun verify(frame: Frame) {
         if (verificationExpired()) {
-            listener?.onVerificationCompleted(false)
+            listener?.onVerificationCompleted(false, null)
         }
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             if (faces.isNotEmpty()) {
                 for (face in faces) {
-                   if (face.smilingProbability > 80) listener?.onVerificationCompleted(true)
+                   if (face.smilingProbability > 50) listener?.onVerificationCompleted(true, face)
                 }
             }
 

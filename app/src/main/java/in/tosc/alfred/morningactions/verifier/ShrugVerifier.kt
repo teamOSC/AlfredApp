@@ -6,12 +6,14 @@ class ShrugVerifier(val vListener: VerificationListener?): Verifier(vListener), 
 
     override fun verify(frame: Frame) {
         if (verificationExpired()) {
-            listener?.onVerificationCompleted(false)
+            listener?.onVerificationCompleted(false, null)
         }
         faceDetector.detectInImage(super.visionImage(frame)).addOnSuccessListener { faces ->
             if (faces.isNotEmpty()) {
                 for (face in faces) {
-                    listener?.onVerificationCompleted(true)
+                    android.os.Handler().postDelayed({
+                        listener?.onVerificationCompleted(true, face)
+                    }, 2000)
                 }
             }
 
