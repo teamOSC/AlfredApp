@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background_onboarding"
     android:layout_width="match_parent"
@@ -12,16 +13,38 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"/>
 
-    <TextView
-        android:id="@+id/textViewInstruction"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/opendys_bold"
-        android:gravity="center"
-        android:padding="30dp"
-        android:text="Sample"
-        android:textColor="@android:color/white"
-        android:textSize="26sp" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textViewInstruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opendys_bold"
+            android:gravity="center"
+            android:padding="30dp"
+            android:text="Sample"
+            android:textColor="@android:color/white"
+            android:textSize="26sp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@android:color/white"
+            app:strokeWidth="4dp"
+            android:padding="10dp"
+            android:fontFamily="@font/opendys_bold"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:cornerRadius="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/material_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next >"/>
+    </LinearLayout>
+
+
 
 
 </FrameLayout>

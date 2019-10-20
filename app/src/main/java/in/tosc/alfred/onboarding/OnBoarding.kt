@@ -7,14 +7,22 @@ object OnBoarding {
     public const val ONBOARD_STEP = "onboard_step"
 
     public val ONBOARD_STEP_GIFS = intArrayOf(
-        R.drawable.namaste
+        R.drawable.namaste,
+        R.drawable.looking_excited,
+        R.drawable.thinking,
+        R.drawable.excited_claps,
+        R.drawable.thumbs_up,
+        R.drawable.shrug,
+        R.drawable.wave_bye
     )
 
     public val ONBOARD_STEP_INSTRUCTIONS = arrayOf(
-        "Namaste! I am Alfred, your friendly assistant"
+        "Namaste! I am Alfred, your friendly assistant",
+        "I am going to be your constant companion and friend",
+        "You might be thinking, what will I do?",
+        "We are going to meet everyday at 08:00 AM and perform some fun activities!",
+        "I will make sure you are at the top of your health, and have no troubles",
+        "You can always open the Alfred app to talk to me!",
+        "Let us meet tomorrow morning! Till then, have a nice day!"
     )
-
-    private var currentStep = -1;
-    public fun nextStep() = ++currentStep
-
 }
