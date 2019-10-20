@@ -1,7 +1,6 @@
 package `in`.tosc.alfred.drawactions
 
 import `in`.tosc.alfred.R
-import `in`.tosc.alfred.morningactions.MorningActions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
@@ -15,9 +14,18 @@ class DrawActionActivity : AppCompatActivity() {
     }
 
     fun goToNextFragment() {
-        val nextFragment = DrawActionSampleFragment.newInstance(MorningActions.nextStep())
+        if (DrawActions.currentStep == DrawActions.DRAW_ACTION_GIFS.size - 1) {
+            finish()
+            return
+        }
+        val nextFragment = DrawActionSampleFragment.newInstance(DrawActions.nextStep())
         supportFragmentManager.commit {
             replace(R.id.fragmentContainer, nextFragment)
         }
+    }
+
+    override fun onDestroy() {
+        DrawActions.currentStep = -1
+        super.onDestroy()
     }
 }

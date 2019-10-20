@@ -23,6 +23,10 @@ class MorningActionsActivity : AppCompatActivity() {
     }
 
     fun goToNextFragment() {
+        if (MorningActions.currentStep == MorningActions.ACTION_STEP_VIDEOS.size - 1) {
+            finish()
+            return
+        }
         val nextFragment = SampleActionVideoFragment.newInstance(MorningActions.nextStep())
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragmentContainer, nextFragment)
