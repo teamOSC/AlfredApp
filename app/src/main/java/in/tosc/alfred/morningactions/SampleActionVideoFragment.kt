@@ -40,21 +40,20 @@ class SampleActionVideoFragment : Fragment() {
                 activity?.packageName +
                 "/" + MorningActions.ACTION_STEP_VIDEOS[actionStep]
 
+        rootView.videoMorningActionSample.setZOrderOnTop(true);
         rootView.videoMorningActionSample.setVideoURI(Uri.parse(videoPath))
         rootView.videoMorningActionSample.start()
-
-        Handler().postDelayed({
+        rootView.videoMorningActionSample.setOnCompletionListener {
             rootView.videoMorningActionSample.stopPlayback()
-            nextStep()
-        }, 5000)
+            verifyStep()
+        }
 
         return rootView
     }
 
-    fun nextStep() {
-        (activity as MorningActionsActivity).goToNextFragment()
+    private fun verifyStep() {
+        (activity as MorningActionsActivity).goToVerifyFragment()
     }
-
 
     companion object {
         @JvmStatic
