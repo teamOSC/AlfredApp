@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.otaliastudios.cameraview.CameraView
 import com.otaliastudios.cameraview.controls.Audio
 import com.otaliastudios.cameraview.controls.Facing
@@ -59,7 +60,7 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
         verifyListener = object: VerificationListener {
             override fun onVerificationCompleted(success: Boolean) {
                 MorningActions.stepVerifyStatus[MorningActions.ACTION_STEP_VIDEOS[MorningActions.currentStep]] = success
-                nextStep()
+                nextStep(success)
             }
         }
 
@@ -71,6 +72,21 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
                 R.raw.wink_right_eye -> {
                     verifier = WinkVerifier(verifyListener, "right")
                 }
+                R.raw.mouth_smile_open_o -> {
+                    verifier = SmileVerifier(verifyListener)
+                }
+                R.raw.neck_turn_left -> {
+                    verifier = NeckTurnVerifier(verifyListener, "left")
+                }
+                R.raw.neck_turn_right -> {
+                    verifier = NeckTurnVerifier(verifyListener, "right")
+                }
+                R.raw.neck_tilt_left -> {
+                    verifier = NeckTiltVerifier(verifyListener, "left")
+                }
+                R.raw.neck_tilt_right -> {
+                    verifier = NeckTiltVerifier(verifyListener, "right")
+                }
             }
         }
 
@@ -81,13 +97,14 @@ class VerifyActionFragment : Fragment(), FrameProcessor {
        verifier.verify(frame)
     }
 
-    fun nextStep() {
+    fun nextStep(success: Boolean) {
         cameraView.removeFrameProcessor(this)
         Handler().postDelayed({
             if (activity != null) {
+                Toast.makeText(activity, success.toString(), Toast.LENGTH_SHORT).show()
                 (activity as MorningActionsActivity).goToNextFragment()
             }
-        }, 1000)
+        }, 500)
     }
 
     companion object {
