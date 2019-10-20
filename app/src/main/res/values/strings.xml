@@ -1,6 +1,21 @@
 <resources>
-    <string name="app_name">Alfred</string>
+    <string translatable="false" name="app_name">Alfred</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string translatable="false" name="hello_blank_fragment">Hello blank fragment</string>
+    
+    
+    <string name="morning_action_look_left">Look left without moving your head, like this</string>
+    <string name="morning_action_look_right">Look right without moving your head, like this</string>
+    <string name="morning_action_turn_left">Now, turn your neck left"</string>
+    <string name="morning_action_turn_right">Ok, let\'s try turning the neck right now"</string>
+    <string name="morning_action_tilt_left">Tilt your neck to the left"</string>
+    <string name="morning_action_tilt_right">And now, tilt it to the right"</string>
+    <string name="morning_action_wave_left">Raise your left hand and wave"</string>
+    <string name="morning_action_wave_right">Raise your right hand to wave too"</string>
+    <string name="morning_action_wink_left">Wink with only your left eye"</string>
+    <string name="morning_action_wink_right">Now wink with your right eye"</string>
+    <string name="morning_action_lips">Narrow your lips and move your lips left and right like this"</string>
+    <string name="morning_action_mouth">Let\'s see a big smile on your face, and then open your mouth"</string>
+    <string name="morning_action_shrug">Try to shrug as shown</string>
 </resources>

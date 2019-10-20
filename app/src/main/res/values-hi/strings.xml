@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="morning_action_look_left">अपने सिर को बिना हिलाए ऐसे ही देखें</string>
+    <string name="morning_action_look_right">अपने सिर को बिना हिलाए ऐसे ही देखें</string>
+    <string name="morning_action_turn_left">अब, अपनी गर्दन को बाएं घुमाएं</string>
+    <string name="morning_action_turn_right">ठीक है, अभी गर्दन दाईं मोड़ने की कोशिश करते हैं</string>
+    <string name="morning_action_tilt_left">अपनी गर्दन को बाईं ओर झुकाएं</string>
+    <string name="morning_action_tilt_right">और अब, इसे दाईं ओर झुकाएं</string>
+    <string name="morning_action_wave_left">अपने बाएं हाथ और लहर को उठाएं</string>
+    <string name="morning_action_wave_right">अपने दाहिने हाथ को भी लहराने के लिए उठाएं</string>
+    <string name="morning_action_wink_left">अब अपनी बाएं आंख से झपकाएं</string>
+    <string name="morning_action_wink_right">अब अपनी दाईं आंख से झपकाएं</string>
+    <string name="morning_action_lips">अपने होठों को संकीर्ण करें और अपने होंठों को इस तरह बाएं और दाएं घुमाएं</string>
+    <string name="morning_action_mouth">मुस्कुराओ और फिर अपना मुंह खोलो</string>
+    <string name="morning_action_shrug">अपने हाथ बढ़ाएं</string>
+</resources>

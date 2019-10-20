@@ -67,15 +67,17 @@ class SampleActionVideoFragment : Fragment() {
                 goNext()
         }
 
+        val instruction = getString(MorningActions.ACTION_STEP_INSTRUCTIONS[actionStep])
+
         rootView.videoMorningActionSample.setOnPreparedListener {
             rootView.videoMorningActionSample.setZOrderOnTop(false);
-            rootView.textViewInstruction.text = MorningActions.ACTION_STEP_INSTRUCTIONS[actionStep]
+            rootView.textViewInstruction.text = instruction
             it.setVolume(0f, 0f)
         }
 
         Handler().postDelayed({
             ttObj?.speak(
-                MorningActions.ACTION_STEP_INSTRUCTIONS[actionStep],
+                instruction,
                 TextToSpeech.QUEUE_FLUSH,
                 null
             )
