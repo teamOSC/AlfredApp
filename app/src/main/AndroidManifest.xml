@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".morningactions.MorningActionsActivity"></activity>
+        <activity android:name=".onboarding.OnboardingActivity"></activity>
+        <activity android:name=".morningactions.MorningActionsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
