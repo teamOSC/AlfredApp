@@ -19,5 +19,10 @@ object DrawActions {
 
     var currentStep = -1
 
-    public fun nextStep () = ++MorningActions.currentStep
+    public fun nextStep (): Int {
+        if (currentStep == DRAW_ACTION_GIFS.size - 1) {
+            currentStep = -1
+        }
+        return ++currentStep
+    }
 }
