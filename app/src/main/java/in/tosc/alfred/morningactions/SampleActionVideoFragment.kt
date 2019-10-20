@@ -37,6 +37,11 @@ class SampleActionVideoFragment : Fragment() {
 
     }
 
+    override fun onDestroy() {
+        ttObj?.shutdown()
+        super.onDestroy()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,22 +50,23 @@ class SampleActionVideoFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_sample_action_video, container, false)
 
-        rootView.textViewInstruction.text = MorningActions.ACTION_STEP_INSTRUCTIONS[actionStep]
 
         val videoPath = "android.resource://" +
                 activity?.packageName +
                 "/" + MorningActions.ACTION_STEP_VIDEOS[actionStep]
 
-        rootView.videoMorningActionSample.setZOrderOnTop(true);
         rootView.videoMorningActionSample.setVideoURI(Uri.parse(videoPath))
         rootView.videoMorningActionSample.start()
 
         rootView.videoMorningActionSample.setOnCompletionListener {
+            rootView.videoMorningActionSample.setZOrderOnTop(true);
             rootView.videoMorningActionSample.stopPlayback()
             verifyStep()
         }
 
         rootView.videoMorningActionSample.setOnPreparedListener {
+            rootView.videoMorningActionSample.setZOrderOnTop(false);
+            rootView.textViewInstruction.text = MorningActions.ACTION_STEP_INSTRUCTIONS[actionStep]
             it.setVolume(0f, 0f)
         }
 

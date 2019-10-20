@@ -10,12 +10,14 @@
         android:layout_gravity="center_horizontal|bottom"
         android:id="@+id/videoMorningActionSample"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/textViewInstruction"
+        android:layout_gravity="top|center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minLines="2"
         android:fontFamily="@font/rubik"
         android:padding="10dp"
         android:text="Sample"
