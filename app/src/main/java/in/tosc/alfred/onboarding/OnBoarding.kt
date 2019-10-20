@@ -20,8 +20,8 @@ object OnBoarding {
         "Namaste! I am Alfred, your friendly assistant",
         "I am going to be your constant companion and friend",
         "You might be thinking, what will I do?",
-        "We are going to meet everyday at 08:00 AM and perform some fun activities!",
-        "I will make sure you are at the top of your health, and have no troubles",
+        "We will meet everyday at 08:00 AM and do some fun activities!",
+        "I will make sure you have no health troubles",
         "You can always open the Alfred app to talk to me!",
         "Let us meet tomorrow morning! Till then, have a nice day!"
     )

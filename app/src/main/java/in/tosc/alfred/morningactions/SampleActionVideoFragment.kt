@@ -31,9 +31,7 @@ class SampleActionVideoFragment : Fragment() {
         arguments?.let {
             actionStep = it.getInt(MORNING_ACTION_STEP)
         }
-        ttObj = TextToSpeech(activity) {
-
-        }
+        ttObj = TextToSpeech(activity) {}
 
     }
 

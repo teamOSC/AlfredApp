@@ -3,35 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="in.tosc.alfred">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-
     <application
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:fullBackupContent="true"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
-            android:theme="@style/AppThemeFullscreen"
-            android:name=".onboarding.OnboardingActivity" />
-
-        <activity android:name=".morningactions.MorningActionsActivity" />
-
-        <activity android:name=".MainActivity">
+            android:theme="@style/AppThemeSplash"
+            android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".onboarding.OnboardingActivity"
+            android:theme="@style/AppThemeFullscreen" />
+        
+        <activity android:name=".morningactions.MorningActionsActivity" />
+        <activity android:name=".MainActivity" />
 
-    <meta-data
-        android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-        android:value="face" />
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="face" />
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

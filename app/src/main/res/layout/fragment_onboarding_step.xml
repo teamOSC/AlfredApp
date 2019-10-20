@@ -31,6 +31,7 @@
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:strokeColor="@android:color/white"
+            app:rippleColor="@android:color/white"
             app:strokeWidth="4dp"
             android:padding="10dp"
             android:fontFamily="@font/opendys_bold"
@@ -38,7 +39,8 @@
             android:textSize="20sp"
             app:cornerRadius="20dp"
             android:layout_gravity="center"
-            android:id="@+id/material_button"
+            android:id="@+id/buttonNext"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Next >"/>
