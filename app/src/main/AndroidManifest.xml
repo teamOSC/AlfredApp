@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="in.tosc.alfred">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,10 +14,13 @@
         android:theme="@style/AppTheme"
         android:fullBackupContent="true"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:theme="@style/AppThemeFullscreen"
             android:name=".onboarding.OnboardingActivity" />
+
         <activity android:name=".morningactions.MorningActionsActivity" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+    <meta-data
+        android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+        android:value="face" />
     </application>
 
 </manifest>

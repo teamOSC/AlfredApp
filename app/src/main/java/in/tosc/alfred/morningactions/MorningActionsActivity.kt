@@ -1,6 +1,7 @@
 package `in`.tosc.alfred.morningactions
 
 import `in`.tosc.alfred.R
+import `in`.tosc.alfred.morningactions.verifier.VerifyActionFragment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
@@ -11,6 +12,13 @@ class MorningActionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_morning_actions)
         goToNextFragment()
+    }
+
+    fun goToVerifyFragment() {
+        val nextFragment = VerifyActionFragment.newInstance(MorningActions.currentStep)
+        supportFragmentManager.commit {
+            replace(R.id.fragmentContainer, nextFragment)
+        }
     }
 
     fun goToNextFragment() {

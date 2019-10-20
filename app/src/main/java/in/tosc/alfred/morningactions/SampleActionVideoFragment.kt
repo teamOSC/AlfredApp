@@ -51,8 +51,14 @@ class SampleActionVideoFragment : Fragment() {
                 activity?.packageName +
                 "/" + MorningActions.ACTION_STEP_VIDEOS[actionStep]
 
+        rootView.videoMorningActionSample.setZOrderOnTop(true);
         rootView.videoMorningActionSample.setVideoURI(Uri.parse(videoPath))
         rootView.videoMorningActionSample.start()
+
+        rootView.videoMorningActionSample.setOnCompletionListener {
+            rootView.videoMorningActionSample.stopPlayback()
+            verifyStep()
+        }
 
         rootView.videoMorningActionSample.setOnPreparedListener {
             it.setVolume(0f, 0f)
@@ -66,18 +72,17 @@ class SampleActionVideoFragment : Fragment() {
             )
         }, 500)
 
-        Handler().postDelayed({
-            rootView.videoMorningActionSample.stopPlayback()
-            nextStep()
-        }, 5000)
 
         return rootView
+    }
+
+    private fun verifyStep() {
+        (activity as MorningActionsActivity).goToVerifyFragment()
     }
 
     fun nextStep() {
         (activity as? MorningActionsActivity)?.goToNextFragment()
     }
-
 
     companion object {
         @JvmStatic

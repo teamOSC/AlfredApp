@@ -22,6 +22,8 @@ object MorningActions {
         R.raw.shrug
     )
 
+    var currentStep = -1
+
     public val ACTION_STEP_INSTRUCTIONS = arrayOf(
         "Look left without moving your head, like this",
         "Look right without moving your head, like this",
@@ -38,6 +40,7 @@ object MorningActions {
         "Try to shrug as shown"
     )
 
-    private var currentStep = -1
     public fun nextStep () = ++currentStep
+
+    var stepVerifyStatus = hashMapOf<Int, Boolean>()
 }
